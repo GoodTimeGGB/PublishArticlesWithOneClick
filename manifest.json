@@ -1,0 +1,65 @@
+{
+  "manifest_version": 3,
+  "name": "一键发布文章助手",
+  "version": "1.0.4",
+  "description": "在线编辑Markdown文章，一键发布到博客园、CSDN、51CTO、掘金、腾讯云、阿里云、华为云、京东云、知乎、简书等多个平台",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "一键发布文章助手"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "cookies"
+  ],
+  "host_permissions": [
+    "*://*.cnblogs.com/*",
+    "*://cnblogs.com/*",
+    "*://*.csdn.net/*",
+    "*://csdn.net/*",
+    "*://*.csdn.com/*",
+    "*://csdn.com/*",
+    "*://*.51cto.com/*",
+    "*://51cto.com/*",
+    "*://*.juejin.cn/*",
+    "*://juejin.cn/*",
+    "*://*.cloud.tencent.com/*",
+    "*://cloud.tencent.com/*",
+    "*://*.tencent.com/*",
+    "*://*.volcengine.com/*",
+    "*://volcengine.com/*",
+    "*://*.aliyun.com/*",
+    "*://aliyun.com/*",
+    "*://*.huaweicloud.com/*",
+    "*://huaweicloud.com/*",
+    "*://*.jdcloud.com/*",
+    "*://jdcloud.com/*",
+    "*://*.zhihu.com/*",
+    "*://zhihu.com/*",
+    "*://*.jianshu.com/*",
+    "*://jianshu.com/*",
+    "*://*.xiaobaotong.net/*",
+    "*://xiaobaotong.net/*",
+    "*://*.infoq.cn/*",
+    "*://infoq.cn/*",
+    "*://*.segmentfault.com/*",
+    "*://segmentfault.com/*",
+    "*://*.alipay.com/*",
+    "*://alipay.com/*"
+  ],
+  "options_page": "options.html"
+}

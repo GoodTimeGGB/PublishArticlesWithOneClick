@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一键发布文章助手 - 设置</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f7fa;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #666;
+    }
+
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e1e4e8;
+    }
+
+    .platform-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .platform-card {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background: #f6f8fa;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .platform-card:hover {
+      background: #e9ecef;
+    }
+
+    .platform-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 600;
+      color: white;
+      margin-right: 16px;
+    }
+
+    .platform-info {
+      flex: 1;
+    }
+
+    .platform-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .platform-status {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .platform-status.connected {
+      color: #28a745;
+    }
+
+    .platform-status.disconnected {
+      color: #dc3545;
+    }
+
+    .platform-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      background: #f6f8fa;
+      color: #333;
+      border: 1px solid #e1e4e8;
+    }
+
+    .btn-secondary:hover {
+      background: #e9ecef;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #c82333;
+    }
+
+    .btn-info {
+      background: #17a2b8;
+      color: white;
+    }
+
+    .btn-info:hover {
+      background: #138496;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #667eea;
+    }
+
+    .form-group small {
+      display: block;
+      margin-top: 4px;
+      color: #666;
+      font-size: 12px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      background: #333;
+      color: white;
+      border-radius: 6px;
+      font-size: 14px;
+      z-index: 1001;
+      animation: slideUp 0.3s ease;
+    }
+
+    .toast.success {
+      background: #28a745;
+    }
+
+    .toast.error {
+      background: #dc3545;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      padding: 10px 20px;
+      border: none;
+      background: #f6f8fa;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      background: #e9ecef;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .help-text {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #856404;
+    }
+
+    .help-text a {
+      color: #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📝 一键发布文章助手</h1>
+      <p>管理您的博客平台账号绑定</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="accounts">账号管理</button>
+      <button class="tab-btn" data-tab="settings">通用设置</button>
+      <button class="tab-btn" data-tab="about">关于</button>
+    </div>
+
+    <div class="tab-panel active" id="accounts-panel">
+      <div class="section">
+        <h2 class="section-title">平台账号绑定</h2>
+        <div class="help-text">
+          💡 <strong>使用说明：</strong>点击"登录绑定"按钮，将打开对应平台的登录页面。登录成功后，插件会自动保存您的登录状态。部分平台需要您手动获取API Token，请参考各平台的说明。
+        </div>
+        <div class="platform-list" id="platformList"></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="settings-panel">
+      <div class="section">
+        <h2 class="section-title">通用设置</h2>
+        <div class="form-group">
+          <label>默认发布设置</label>
+          <label style="font-weight: normal;">
+            <input type="checkbox" id="defaultPublishNow" checked> 默认立即发布
+          </label>
+        </div>
+        <div class="form-group">
+          <label>自动保存草稿间隔（秒）</label>
+          <input type="number" id="autoSaveInterval" value="30" min="10" max="300">
+        </div>
+        <div class="form-group">
+          <label>Markdown渲染风格</label>
+          <select id="markdownStyle" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #e1e4e8;">
+            <option value="github">GitHub 风格</option>
+            <option value="typora">Typora 风格</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="saveSettingsBtn">保存设置</button>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="about-panel">
+      <div class="section">
+        <h2 class="section-title">关于插件</h2>
+        <p><strong>版本：</strong>1.0.0</p>
+        <p><strong>作者：</strong>一键发布团队</p>
+        <p style="margin-top: 16px;">
+          本插件支持一键发布Markdown文章到多个主流博客平台，帮助开发者提高内容发布效率。
+        </p>
+        <h3 style="margin-top: 20px; margin-bottom: 10px;">支持的平台</h3>
+        <ul style="padding-left: 20px; line-height: 1.8;">
+          <li>博客园 - 开发者技术分享社区</li>
+          <li>CSDN - 中国专业IT社区</li>
+          <li>51CTO - IT技术社区</li>
+          <li>稀土掘金 - 技术社区</li>
+          <li>腾讯云开发者社区</li>
+          <li>火山引擎开发者社区</li>
+          <li>阿里云开发者社区</li>
+          <li>华为云开发者社区</li>
+          <li>京东云开发者社区</li>
+          <li>知乎 - 中文互联网问答社区</li>
+          <li>简书 - 创作社区</li>
+          <li>小报童 - 知识付费平台</li>
+          <li>InfoQ - 技术媒体</li>
+          <li>SegmentFault思否 - 技术社区</li>
+          <li>支付宝开发者社区</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">登录绑定</h3>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="modalCancel">取消</button>
+        <button class="btn btn-primary" id="modalConfirm">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="platforms/index.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

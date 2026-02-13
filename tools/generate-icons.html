@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>图标生成器</title>
+</head>
+<body>
+  <h1>插件图标生成器</h1>
+  <p>点击下方按钮生成图标，然后右键保存图片</p>
+  
+  <h3>16x16</h3>
+  <canvas id="icon16" width="16" height="16"></canvas>
+  
+  <h3>48x48</h3>
+  <canvas id="icon48" width="48" height="48"></canvas>
+  
+  <h3>128x128</h3>
+  <canvas id="icon128" width="128" height="128"></canvas>
+  
+  <script>
+    function createIcon(canvasId, size) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#667eea');
+      gradient.addColorStop(1, '#764ba2');
+      
+      const radius = size * 0.15;
+      ctx.beginPath();
+      ctx.roundRect(0, 0, size, size, radius);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      ctx.fillStyle = 'white';
+      ctx.font = `bold ${size * 0.55}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('发', size / 2, size / 2 + size * 0.05);
+    }
+    
+    createIcon('icon16', 16);
+    createIcon('icon48', 48);
+    createIcon('icon128', 128);
+    
+    document.querySelectorAll('canvas').forEach(canvas => {
+      canvas.style.border = '1px solid #ccc';
+      canvas.style.margin = '10px';
+      canvas.style.cursor = 'pointer';
+      
+      canvas.addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = canvas.id.replace('icon', 'icon') + '.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    });
+  </script>
+</body>
+</html>
